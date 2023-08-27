@@ -100,7 +100,8 @@ class DumbServer(keyring.backend.KeyringBackend):
         }
         url = self._server_url + 'get' + '?' + urlencode(vars)
         log.debug('get_password url=%r', url)
-        return urllib_get_url(url)
+        password = urllib_get_url(url).decode('utf-8')
+        return password
 
     def set_password(self, service, username, password):
         # NOOP - could do the same as get_password
