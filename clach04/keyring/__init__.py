@@ -13,11 +13,12 @@
 import logging
 try:
     # Py3
+    from urllib.error import HTTPError
     from urllib.request import urlopen, Request
     from urllib.parse import urlencode
 except ImportError:
     # Py2
-    from urllib2 import urlopen, Request
+    from urllib2 import urlopen, Request, HTTPError
     from urllib import urlencode
 
 
@@ -31,7 +32,7 @@ logging.basicConfig()
 #log.setLevel(level=logging.DEBUG)
 
 
-def urllib_get_url(url, headers=None):
+def urllib_get_url(url, headers=None, ignore_errors=False):
     """
     @url - web address/url (string)
     @headers - dictionary - optional
@@ -50,10 +51,15 @@ def urllib_get_url(url, headers=None):
         #log("getURL [{}] response code:{}".format(url, code))
         result = response.read()
         return result
+    except:  # HTTPError, ConnectionRefusedError
+        # probably got HTTPError, may be ConnectionRefusedError
+        if ignore_errors:
+           return None
+        else:
+           raise
     finally:
         if response != None:
             response.close()
-
 
 
 class SimpleKeyring(keyring.backend.KeyringBackend):
@@ -100,7 +106,9 @@ class DumbServer(keyring.backend.KeyringBackend):
         }
         url = self._server_url + 'get' + '?' + urlencode(vars)
         log.debug('get_password url=%r', url)
-        password = urllib_get_url(url).decode('utf-8')
+        password = urllib_get_url(url, ignore_errors=True)
+        if password is not None:
+            password = password.decode('utf-8')
         return password
 
     def set_password(self, service, username, password):
