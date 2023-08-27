@@ -93,7 +93,7 @@ class DumbServer(keyring.backend.KeyringBackend):
     def __init__(self):
         self._server_url = 'http://127.0.0.1:4277/'
 
-    priority = 1
+    priority = 0  # if this is one, then the chainer backend may pick this over (say) WinVaultKeyring (even though that's a 5)
 
     def supported(self):
         return 0
