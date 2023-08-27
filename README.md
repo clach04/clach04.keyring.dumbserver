@@ -6,3 +6,16 @@ Similar intent to https://github.com/jaraco/jaraco.keyring but just for a local 
 Current backends:
 
   * SimpleKeyring
+  * DumbServer
+
+
+## SimpleKeyring
+
+    python -m keyring -b clach04.keyring.SimpleKeyring get testsvc testuser
+
+## DumbServer
+
+NOTE **not** 100% implemented yet.
+
+    python -m clach04.keyring.dumbserver
+    python -m keyring -b clach04.keyring.DumbServer get testsvc testuser
