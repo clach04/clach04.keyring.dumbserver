@@ -28,7 +28,7 @@ import keyring.backend
 log = logging.getLogger(__name__)
 logging.basicConfig()
 #logging.basicConfig(level=logging.DEBUG)
-log.setLevel(level=logging.DEBUG)
+#log.setLevel(level=logging.DEBUG)
 
 
 def urllib_get_url(url, headers=None):
