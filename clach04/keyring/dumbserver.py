@@ -20,6 +20,22 @@ try:
 except ImportError:
     # py2 (and <py3.8)
     from cgi import parse_qs
+try:
+    import getpass
+except ImportError:
+    # Mayhe Jython... old version
+    class getpass(object):
+        def getpass(cls, prompt=None, stream=None):
+            if prompt is None:
+                prompt = ''
+            if stream is None:
+                stream = sys.stdout
+            prompt = prompt+ ' (warning password WILL echo): '
+            stream.write(prompt)
+            result = raw_input('') # or simply ignore stream??
+            return result
+        getpass = classmethod(getpass)
+
 import os
 import logging
 import mimetypes
@@ -50,6 +66,11 @@ logging.basicConfig()
 log.setLevel(level=logging.DEBUG)
 
 
+MODE_STATIC = 'static'  # uses global single_password
+MODE_PROMPT = 'prompt'  # uses global single_password, but prompt at start up time
+run_mode = MODE_STATIC
+single_password = 'password'
+
 def simple_app(environ, start_response):
     status = '200 OK'
     headers = [('Content-type', 'text/plain')]
@@ -68,14 +89,32 @@ def simple_app(environ, start_response):
     if path_info == '/get':
         # can either proxy get_dict into a different keyring backend...
         # or hard code to support only a single password
-        result.append('password'.encode('utf-8'))
+        if run_mode == MODE_STATIC:
+            result.append(single_password.encode('utf-8'))
+        else:
+            raise NotImplementedError('run_mode-%r' % run_mode)
 
     start_response(status, headers)
     return result
 
 
 def main(argv=None):
+    if argv is None:
+        argv = sys.argv
+
     print('Python %s on %s' % (sys.version, sys.platform))
+
+    global run_mode
+    try:
+        run_mode = argv[1]
+    except IndexError:
+        # default
+        run_mode = MODE_STATIC
+    if run_mode == MODE_PROMPT:
+        run_mode = MODE_STATIC
+        global single_password
+        single_password = getpass.getpass("Password:")
+
     server_port = int(os.environ.get('PORT', DEFAULT_SERVER_PORT))
     server_listen_address = '127.0.0.1'  # ::1 - do not want to listen on 0.0.0.0
 
