@@ -1,6 +1,6 @@
 # clach04.keyring.dumbserver
 
-Insecure, terrible, [keyring backend](https://github.com/jaraco/keyring) - similar to jaraco.keyring Remote Agent Keyring.. just way worse
+Insecure, terrible, [keyring backend](https://github.com/jaraco/keyring) - similar to jaraco.keyring Remote Agent Keyring.. just way worse (but it is cross platform).
 Similar intent to https://github.com/jaraco/jaraco.keyring but just for a local machine over regular http (on a tcp socket, not a domain socket).
 
 Current backends:
@@ -49,3 +49,9 @@ To see the same password.
   * Only supports a single password, both service and username are **ignored**
   * Does NOT use keyring (could be updated to proxy onto a real Keyring backend)
   * Python 3 or Python 2
+
+
+## Alternatives
+
+  * https://github.com/jaraco/jaraco.keyring - Unix/Linux only
+  * https://pypi.org/project/keyrings.envvars/ (described in https://github.com/jaraco/keyring/issues/539)
