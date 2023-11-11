@@ -3,6 +3,13 @@
 Insecure, terrible, [keyring backend](https://github.com/jaraco/keyring) - similar to jaraco.keyring Remote Agent Keyring.. just way worse (but it is cross platform).
 Similar intent to https://github.com/jaraco/jaraco.keyring but just for a local machine over regular http (on a tcp socket, not a domain socket).
 
+  * [Getting Started](#getting-started)
+  * [Quick Demo](#quick-demo)
+  * [SimpleKeyring - keyring backend](#simplekeyring---keyring-backend)
+  * [DumbServer - keyring backend](#dumbserver---keyring-backend)
+    + [dumbserver - web server](#dumbserver---web-server)
+  * [Alternatives](#alternatives)
+
 Current backends:
 
   * SimpleKeyring - can store only one password in memory, both service and username are **ignored**
