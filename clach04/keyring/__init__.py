@@ -86,12 +86,14 @@ class SimpleKeyring(keyring.backend.KeyringBackend):
         self.password = None
 
 
+DEFAULT_SERVER_PORT = 4277  # FIXME pull in from dumbserver
+
 class DumbServer(keyring.backend.KeyringBackend):
     """http server access, local only across regular tcp_ip socket (no need for unix domain sockets)
     ONLY uses GET calls (not POST)
     """
     def __init__(self):
-        self._server_url = 'http://127.0.0.1:4277/'
+        self._server_url = 'http://127.0.0.1:%d/' % DEFAULT_SERVER_PORT
 
     priority = 0  # if this is one, then the chainer backend may pick this over (say) WinVaultKeyring (even though that's a 5)
 
