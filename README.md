@@ -39,7 +39,7 @@ To see the same password.
 
 ## DumbServer
 
-NOTE **not** 100% implemented yet.
+NOTE **not** 100% implemented yet. dumbserver port can be controlled via operating system environment variable `PORT`, however DumbServer is currently hard coded.
 
     python -m clach04.keyring.dumbserver
     python -m keyring -b clach04.keyring.DumbServer get testsvc testuser
