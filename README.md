@@ -5,8 +5,9 @@ Similar intent to https://github.com/jaraco/jaraco.keyring but just for a local 
 
 Current backends:
 
-  * SimpleKeyring
-  * DumbServer
+  * SimpleKeyring - can store only one password in memory, both service and username are **ignored**
+  * DumbServer - Accesses local http server (currently hard coded)
+      * a demo http only (no https support) server `dumbserver` is included which only listens to requests from local machine and only supports one password (both service and username are **ignored**) - this is unsafe on a shared machine, and probably unsafe in general 😉
 
 
 ## SimpleKeyring
