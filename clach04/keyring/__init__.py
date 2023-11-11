@@ -11,6 +11,7 @@
 """
 
 import logging
+import os
 try:
     # Py3
     from urllib.error import HTTPError
@@ -93,7 +94,8 @@ class DumbServer(keyring.backend.KeyringBackend):
     ONLY uses GET calls (not POST)
     """
     def __init__(self):
-        self._server_url = 'http://127.0.0.1:%d/' % DEFAULT_SERVER_PORT
+        server_port = int(os.environ.get('DUMB_SERVER_KEYRING_PORT', os.environ.get('PORT', DEFAULT_SERVER_PORT)))
+        self._server_url = 'http://127.0.0.1:%d/' % server_port
 
     priority = 0  # if this is one, then the chainer backend may pick this over (say) WinVaultKeyring (even though that's a 5)
 

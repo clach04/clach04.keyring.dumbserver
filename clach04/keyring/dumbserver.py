@@ -115,7 +115,7 @@ def main(argv=None):
         global single_password
         single_password = getpass.getpass("Password:")
 
-    server_port = int(os.environ.get('PORT', DEFAULT_SERVER_PORT))
+    server_port = int(os.environ.get('DUMB_SERVER_KEYRING_PORT', os.environ.get('PORT', DEFAULT_SERVER_PORT)))
     server_listen_address = '127.0.0.1'  # ::1 - do not want to listen on 0.0.0.0
 
     log.info('Starting server: %r', (server_listen_address, server_port))

@@ -20,7 +20,7 @@ Known to work with keyring 24.2.0 and Python 3.11
 
     python -m clach04.keyring.dumbserver prompt
 
-enter in a test password, then in another session (or web browser):
+enter in a test password, the server defaults to listening on port 4277 (override via os env `DUMB_SERVER_KEYRING_PORT` or `PORT`) then in another session (or web browser):
 
     curl http://127.0.0.1:4277/get
 
@@ -33,13 +33,19 @@ To access password from keyring issue:
 
 To see the same password.
 
-## SimpleKeyring
+## SimpleKeyring - keyring backend
 
     python -m keyring -b clach04.keyring.SimpleKeyring get testsvc testuser
 
-## DumbServer
+## DumbServer - keyring backend
 
-NOTE **not** 100% implemented yet. dumbserver port can be controlled via operating system environment variable `PORT`, however DumbServer is currently hard coded.
+`dumbserver` (and `DumbServer`) port can be controlled via operating system environment variable `DUMB_SERVER_KEYRING_PORT` or `PORT`.
 
     python -m clach04.keyring.dumbserver
     python -m keyring -b clach04.keyring.DumbServer get testsvc testuser
+
+### dumbserver - web server
+
+  * Only supports a single password, both service and username are **ignored**
+  * Does NOT use keyring (could be updated to proxy onto a real Keyring backend)
+  * Python 3 or Python 2
